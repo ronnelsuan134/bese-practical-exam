@@ -3,7 +3,8 @@
 namespace App\Http\Requests\Auth;
 
 use Illuminate\Foundation\Http\FormRequest;
-
+use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Contracts\Validation\Validator;
 class GuestStoreRequest extends FormRequest
 {
     /**
@@ -29,5 +30,10 @@ class GuestStoreRequest extends FormRequest
             'password' => 'required|min:6|confirmed',
             'password_confirmation' => 'required'
         ];
+    }
+
+    protected function failedValidation(Validator $validator)
+    {
+        throw new HttpResponseException(response()->json($validator->errors(), 400));
     }
 }

@@ -42,7 +42,6 @@ class OrderHelper
     {
         $responseCode = 201;
         $msg = 'You have successfully ordered this product.';
-
         $data = ['msg' => $msg, 'res' => $responseCode];
         return $data;
     }
@@ -51,7 +50,6 @@ class OrderHelper
     {
         $responseCode = 400;
         $msg = 'Failed to order this product due to unavailability of the stock';
-
         $data = ['msg' => $msg, 'res' => $responseCode];
         return $data;
     }

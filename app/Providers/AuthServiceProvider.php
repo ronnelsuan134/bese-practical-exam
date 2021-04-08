@@ -31,7 +31,7 @@ class AuthServiceProvider extends ServiceProvider
             'guest' => 'Guest',
         ]);
         Passport::setDefaultScope([
-            'Guest'
+            'guest'
         ]);
     }
 }
