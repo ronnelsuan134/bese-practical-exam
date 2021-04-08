@@ -7,7 +7,11 @@ use App\Http\Controllers\Api\Order\OrderController;
 
 
 Route::post('/register', [GuestLoginController::class, 'register'])->name('guest.register');
-Route::post('/login', [GuestLoginController::class, 'login'])->name('guest.login');
+
+Route::post('/login', [GuestLoginController::class, 'login'])
+->middleware('throttle:5,5')
+->name('guest.login');
+
 Route::post('/logout', [GuestLoginController::class, 'logout'])->name('guest.logout');
 Route::get('/activate/{id}', [GuestLoginController::class, 'activateGuest'])->name('guest.activate');
 

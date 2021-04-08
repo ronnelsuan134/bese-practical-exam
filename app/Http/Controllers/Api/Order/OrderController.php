@@ -38,18 +38,7 @@ class OrderController extends Controller
      */
     public function store()
     {
-        $product = Product::firstWhere('id', request('product_id'));
-        $ids = $product->id;
-        if (isset($orders[$ids])) {
-            $msg = 'Already in Cart!';
-        } else {
-            // if item not exist in cart then add to cart 
-            $orders[$ids] = [
-                'name' => $product->name,
-                'qty' => request('quantity')
-            ];
-        }
-        $data = OrderHelper::Order($orders);
+        $data = OrderHelper::Order(request('product_id'),request('quantity'));
         return response()->json([
             'msg' => $data['msg']
         ], $data['res']);

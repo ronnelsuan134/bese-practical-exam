@@ -8,25 +8,33 @@ use App\Models\Product;
 class OrderHelper
 {
 
-    public static function Order($orders)
+    public static function Order($id, $qty)
     {
-        foreach ($orders as $id => $order) {
-
-            $product = Product::firstWhere('id', $id);
-            $remainingStock = $product->available_stock;
-            if ($remainingStock < $order['qty']) {
-                return Self::FailedOder();
+        $product = Product::firstWhere('id', $id);
+        $remainingStock = $product->available_stock;
+        $orders = [];
+        if ($remainingStock < $qty) {
+            return Self::FailedOder();
+        } else {
+            if (isset($orders[$id])) {
+                $msg = 'Already in Cart!';
+            } else {
+                // if item not exist in cart then add to cart 
+                $orders[$id] = [
+                    'name' => $product->name,
+                    'qty' => $qty
+                ];
+                foreach ($orders as $id => $order) {
+                    Order::create([
+                        'product_id' => $id,
+                        'quantity' => $order['qty']
+                    ]);
+                    $updatedStock = $remainingStock - $order['qty'];
+                    $product->available_stock = $updatedStock;
+                    $product->save();
+                }
+                return Self::SuccessOrder();
             }
-            Order::create([
-                'product_id' => $id,
-                'quantity' => $order['qty']
-            ]);
-
-            $updatedStock = $remainingStock - $order['qty'];
-            $product->available_stock = $updatedStock;
-            $product->save();
-
-            return Self::SuccessOrder();
         }
     }
 

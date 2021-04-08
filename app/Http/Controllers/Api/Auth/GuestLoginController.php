@@ -11,7 +11,6 @@ use App\Mail\GuestRegister;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Auth;
 
 class GuestLoginController extends Controller
 {
@@ -48,9 +47,9 @@ class GuestLoginController extends Controller
 
         if (!empty($creds) && Hash::check(request('password'), $creds->password)) {
             $token = $creds->createToken($this->secret, ['guest'])->accessToken;
-            return response()->json(['data' => $creds, 'access_token' => $token], 201);
-        }
-        return response()->json(['msg' => 'Invalid credentails'], 401);
+            return response()->json(['data' => $creds, 'access_token' => $token],201);
+        } 
+            return response()->json(['msg' => 'Invalid credentials'], 401);
     }
 
     public function activateGuest($id)
@@ -69,14 +68,5 @@ class GuestLoginController extends Controller
         }
 
         return response()->json(['msg' => 'Email Activated Please Close This Tab'], 201);
-    }
-
-    public function logout()
-    {
-        if (Auth::guard('api_guest_user')->check()) {
-            Auth::guard('api_guest_user')->user()->token()->revoke();
-            return response()->json(['msg' => 'Logout Successfully'], 204);
-        }
-        return response()->json(['msg' => 'Error'], 500);
     }
 }
