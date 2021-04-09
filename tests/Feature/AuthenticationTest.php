@@ -9,39 +9,39 @@ class AuthenticationTest extends TestCase
 {
     use WithoutMiddleware;
 
-    // public function testSuccessfulRegistration()
-    // {
-    //     $userData = [
-    //         'name' => 'juan dela cruz',
-    //         'email' => 'backend@multisyscorp.com',
-    //         "password" => "test123",
-    //         "password_confirmation" => "test123"
-    //     ];
+    public function testSuccessfulRegistration()
+    {
+        $userData = [
+            'name' => 'juan dela cruz',
+            'email' => 'backend@multisyscorp.com',
+            "password" => "test123",
+            "password_confirmation" => "test123"
+        ];
 
-    //     $this->json('POST', 'api/guest/register', $userData, ['Accept' => 'application/json'])
-    //         ->assertStatus(201)
-    //         ->assertJsonStructure([
-    //             "message"
-    //         ]);
-    // }
+        $this->json('POST', 'api/guest/register', $userData, ['Accept' => 'application/json'])
+            ->assertStatus(201)
+            ->assertJsonStructure([
+                "message"
+            ]);
+    }
 
-    // public function testUnsuccessfulRegistration()
-    // {
-    //     $userData = [
-    //         'name' => 'juan dela cruz',
-    //         'email' => 'backend@multisyscorp.com',
-    //         "password" => "test123",
-    //         "password_confirmation" => "test123"
-    //     ];
+    public function testUnsuccessfulRegistration()
+    {
+        $userData = [
+            'name' => 'juan dela cruz',
+            'email' => 'backend@multisyscorp.com',
+            "password" => "test123",
+            "password_confirmation" => "test123"
+        ];
 
-    //     $this->json('POST', 'api/guest/register', $userData, ['Accept' => 'application/json'])
-    //         ->assertStatus(400)
-    //         ->assertJson([
-    //             "email" => [
-    //                 "The email has already been taken.",
-    //             ],
-    //         ]);
-    // }
+        $this->json('POST', 'api/guest/register', $userData, ['Accept' => 'application/json'])
+            ->assertStatus(400)
+            ->assertJson([
+                "email" => [
+                    "The email has already been taken.",
+                ],
+            ]);
+    }
 
      public function testSuccessfulLogin()
     {
@@ -64,17 +64,17 @@ class AuthenticationTest extends TestCase
             $this->assertAuthenticated();
     }
 
-    // public function testInvalidLogin()
-    // {
-    //     $userData = [
-    //         'email' => 'backend123123@multisyscorp.com',
-    //         "password" => "test121231233"
-    //     ];
+    public function testInvalidLogin()
+    {
+        $userData = [
+            'email' => 'backend123123@multisyscorp.com',
+            "password" => "test121231233"
+        ];
 
-    //     $this->json('POST', 'api/guest/login', $userData, ['Accept' => 'application/json'])
-    //         ->assertStatus(401)
-    //         ->assertJson([
-    //             "message" => "Invalid credentials",
-    //         ]);
-    // }
+        $this->json('POST', 'api/guest/login', $userData, ['Accept' => 'application/json'])
+            ->assertStatus(401)
+            ->assertJson([
+                "message" => "Invalid credentials",
+            ]);
+    }
 }
